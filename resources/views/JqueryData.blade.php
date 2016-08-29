@@ -21,11 +21,28 @@
 <body>
 	<div class="container ">
 		{{ csrf_field() }}
+        <div class="row">
+		    <div class="col-lg-12 margin-tb">					
+		        <div class="pull-left">
+		            <h2>Laravel Ajax CRUD Example</h2>
+		        </div>
+		    </div>
+		</div>
+
+        <div class="pull-right">
+				<button type="button" class="create-modal btn btn-success">  
+                <span class="glyphicon glyphicon-edit"></span>
+					  Create Item
+				</button>
+		</div>
+        <br/><br/>
+
+
 		<div class="table-responsive text-center">
 			<table class="table table-borderless" id="table">
 				<thead>
 					<tr>
-						<th class="text-center">#</th>
+                        <th class="text-center">ID</th>
 						<th class="text-center">First Name</th>
 						<th class="text-center">Last Name</th>
 						<th class="text-center">Email</th>
@@ -72,12 +89,14 @@
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" role="form">
-						<div class="form-group">
+					   <!--  <div class="form-group">-->
+                        <div class="form-group" style="display:none">
 							<label class="control-label col-sm-2" for="id">ID</label>
 							<div class="col-sm-10">
 								<input type="text" class="form-control" id="fid" disabled>
 							</div>
 						</div>
+                    
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="fname">First Name</label>
 							<div class="col-sm-10">
@@ -126,6 +145,8 @@
 						<p
 							class="salary_error error text-center alert alert-danger hidden"></p>
 					</form>
+
+
 					<div class="deleteContent">
 						Are you Sure you want to delete <span class="dname"></span> ? <span
 							class="hidden did"></span>
@@ -138,6 +159,8 @@
 							<span class='glyphicon glyphicon-remove'></span> Close
 						</button>
 					</div>
+
+
 				</div>
 			</div>
 		</div>
@@ -148,7 +171,7 @@
             $('#table').DataTable();
         } );
 
-	
+        
         $(document).on('click', '.edit-modal', function() {
             $('#footer_action_button').text(" Update");
             $('#footer_action_button').addClass('glyphicon-check');
@@ -156,6 +179,7 @@
             $('.actionBtn').addClass('btn-success');
             $('.actionBtn').removeClass('btn-danger');
             $('.actionBtn').removeClass('delete');
+            $('.actionBtn').removeClass('create');
             $('.actionBtn').addClass('edit');
             $('.modal-title').text('Edit');
             $('.deleteContent').hide();
@@ -165,6 +189,23 @@
             $('#myModal').modal('show');
         });
 
+	
+        $(document).on('click', '.create-modal', function() {
+            $('#footer_action_button').text(" Create");
+            $('#footer_action_button').addClass('glyphicon-check');
+            $('#footer_action_button').removeClass('glyphicon-trash');
+            $('.actionBtn').addClass('btn-success');
+            $('.actionBtn').removeClass('btn-danger');
+            $('.actionBtn').removeClass('delete');
+            $('.actionBtn').removeClass('edit');
+            $('.actionBtn').addClass('create');
+            $('.modal-title').text('Create');
+            $('.deleteContent').hide();
+            $('.form-horizontal').show();
+            //var stuff = $(this).data('info').split(',');
+            emptymodalData();
+            $('#myModal').modal('show');
+        });
 
         $(document).on('click', '.delete-modal', function() {
             $('#footer_action_button').text(" Delete");
@@ -183,7 +224,7 @@
             $('#myModal').modal('show');
         });
 
-                
+             
         function fillmodalData(details){
             $('#fid').val(details[0]);
             $('#fname').val(details[1]);
@@ -194,7 +235,16 @@
             $('#salary').val(details[6]);
         }
 
-            
+        function emptymodalData(){
+            $('#fid').val("");
+            $('#fname').val("");
+            $('#lname').val("");
+            $('#email').val("");
+            $('#gender').val("");
+            $('#country').val("");
+            $('#salary').val("");
+        }
+
         $('.modal-footer').on('click', '.edit', function() {
             $.ajax({
                 type: 'post',
@@ -236,14 +286,86 @@
                     else {
                         
                         $('.error').addClass('hidden');
+                      
                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" +
                             data.id + "</td><td>" + data.first_name +
                             "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
                             data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
                             "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
                     }}
+                    /*  
+                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.first_name +
+                            "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
+                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
+                            "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+                    }}
+                    */
             });
         });
+
+
+
+        $('.modal-footer').on('click', '.create', function() {
+            $.ajax({
+                type: 'post',
+                url: '/createItem',
+                data: {
+                    '_token': $('input[name=_token]').val(),
+                    'id':"",
+                    'first_name': $('#fname').val(),
+                    'last_name': $('#lname').val(),
+                    'email': $('#email').val(),
+                    'gender': $('#gender').val(),
+                    'country': $('#country').val(),
+                    'salary': $('#salary').val()
+                },
+                success: function(data) {
+                    if (data.errors){
+                        $('#myModal').modal('show');
+                        if(data.errors.fname) {
+                            $('.fname_error').removeClass('hidden');
+                            $('.fname_error').text("First name can't be empty !");
+                        }
+                        if(data.errors.lname) {
+                            $('.lname_error').removeClass('hidden');
+                            $('.lname_error').text("Last name can't be empty !");
+                        }
+                        if(data.errors.email) {
+                            $('.email_error').removeClass('hidden');
+                            $('.email_error').text("Email must be a valid one !");
+                        }
+                        if(data.errors.country) {
+                            $('.country_error').removeClass('hidden');
+                            $('.country_error').text("Country must be a valid one !");
+                        }
+                        if(data.errors.salary) {
+                            $('.salary_error').removeClass('hidden');
+                            $('.salary_error').text("Salary must be a valid format ! (ex: #.##)");
+                        }
+                    }
+                    else {
+                        
+                        $('.error').addClass('hidden');
+
+                    /*    
+                    $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" +
+                            data.id + "</td><td>" + data.first_name +
+                            "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
+                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
+                            "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+                    }}
+                  
+                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.first_name +
+                            "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
+                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
+                            "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+                     */       
+                    }}
+                    
+            });
+        });
+
+
 
 
         $('.modal-footer').on('click', '.delete', function() {

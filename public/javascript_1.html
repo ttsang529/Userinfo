@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>javascript</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+         
+    </body>
+    <script>
+        /*
+        var y=prompt("Enter a Number","");
+        var z=prompt("Enter a Number","");
+        var x=3;
+        var k=parseInt(y)+parseInt(z) ;
+        alert(k);
+        */
+        function isInt(value) {
+            return !isNaN(value) && 
+                    parseInt(Number(value)) == value && 
+                    !isNaN(parseInt(value, 10));
+        }
+
+        var n1=prompt("Enter a Number","");
+        var n2=prompt("Enter a Number","");
+        n1=Number(n1);
+        n2=Number(n2);
+        var op=prompt("Operator:+,-,*,/","");
+        if ((!isInt(n1))&&(!isInt(n1))){
+            alert("Error");
+        }else{
+        myArray = [n1, op, n2]; 
+        var result=eval(myArray.join(' '));
+        alert(result);
+        }
+    </script>
+</html>

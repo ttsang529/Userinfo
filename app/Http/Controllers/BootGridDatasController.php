@@ -18,8 +18,11 @@ class BootGridDatasController extends Controller
     public function Jqueryindex(Request $request)
     {
         $data = Griddata::all();
-        return view('JqueryData')->withData($data);;
+        return view('JqueryData')->withData($data);
     }
+
+
+
 
     public function Jqueryedit(Request $request) {
 	
@@ -36,7 +39,7 @@ class BootGridDatasController extends Controller
 		return \Response::json(array('errors' =>  $validate->getMessageBag()->toArray ()));
 	else {
 		
-		$data =Griddata::find( $request->id );
+		$data =Griddata::find($request->id );
 		$data->first_name = ($request->fname);
 		$data->last_name = ($request->lname);
 		$data->email = ($request->email);
@@ -47,6 +50,16 @@ class BootGridDatasController extends Controller
 		return response()->json($data);
 	}
 }
+
+
+    public function Jquerystore(Request $request)
+    {
+        $create = Griddata::create($request->all());
+        //return response()->json($create);
+        //return redirect('Jquery');
+        //return redirect()->action('BootGridDatasController@Jqueryindex');
+        return response()->json();
+    }
 
 
     public function Jquerydestroy(Request $request) {

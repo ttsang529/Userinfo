@@ -16,5 +16,5 @@ Route::get('/Jquery', 'BootGridDatasController@Jqueryindex');
 Route::post('/editItem', 'BootGridDatasController@Jqueryedit');
 
 
-//Route::post ( '/createItem', 'BootGridDatasController@Jquerystore' );
+Route::post ( '/createItem', 'BootGridDatasController@Jquerystore' );
 Route::post ( '/deleteItem', 'BootGridDatasController@Jquerydestroy');
