@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Responsive Design</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+        .menu{}
+        .mobile-menu{display:none;}
+        .title{
+            text-align:center;font-weight:bold;font-size:40px;
+        } 
+        .frame{
+            width:1000px;margin:0px auto;
+        }
+        .box{
+            width:300px;margin:10px;background-color:#ffcccc;
+            display:inline-block;vertical-align:top;
+
+        }
+        /* CSS 3 media query */
+        @media screen and (max-width:500px){
+            /* if screen less than 500px, it will use this setting */
+            .frame{width:320px}
+            .title{font-size:20px}
+            .menu{display:none;}
+            .mobile-menu{display:block;}
+        }
+        </style>
+
+    </head>
+    <body>
+        <div class="title">This is a responsive web page design</div>
+        <div class="menu">Desktop Menu</div>
+        <div class="mobile-menu">Mobile Menu</div>
+        <div class="frame">
+            <div class="box">Box 1</div>
+            <div class="box">Box 2</div>
+            <div class="box">Box 3</div>
+        </div>
+    </body>
+</html>
