@@ -54,11 +54,19 @@ class BootGridDatasController extends Controller
 
     public function Jquerystore(Request $request)
     {
-        $create = Griddata::create($request->all());
+        //$create = Griddata::create($request->all());
         //return response()->json($create);
         //return redirect('Jquery');
         //return redirect()->action('BootGridDatasController@Jqueryindex');
-        return response()->json();
+        $data = new Griddata();
+ 		$data->first_name = ($request->fname);
+		$data->last_name = ($request->lname);
+		$data->email = ($request->email);
+		$data->gender = ($request->gender);
+		$data->country = ($request->country);
+		$data->salary = ($request->salary);
+		$data->save();
+        return response()->json( $data );
     }
 
 

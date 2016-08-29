@@ -312,8 +312,8 @@
                 data: {
                     '_token': $('input[name=_token]').val(),
                     'id':"",
-                    'first_name': $('#fname').val(),
-                    'last_name': $('#lname').val(),
+                    'fname': $('#fname').val(),
+                    'lname': $('#lname').val(),
                     'email': $('#email').val(),
                     'gender': $('#gender').val(),
                     'country': $('#country').val(),
@@ -346,20 +346,11 @@
                     else {
                         
                         $('.error').addClass('hidden');
+            
+                        $('#table').append("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.first_name +"</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
+                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +"</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
 
-                    /*    
-                    $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" +
-                            data.id + "</td><td>" + data.first_name +
-                            "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
-                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
-                            "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-                    }}
-                  
-                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.first_name +
-                            "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
-                            data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
-                            "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-                     */       
+
                     }}
                     
             });
