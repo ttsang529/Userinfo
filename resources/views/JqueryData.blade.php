@@ -7,14 +7,10 @@
 
 <script src="//code.jquery.com/jquery-1.12.3.js"></script>
 <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script
-	src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<link rel="stylesheet"	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet"	href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
  </script>
 </head>
 <style>
@@ -135,7 +131,7 @@
 								</select>
 							</div>
 						</div>
-                        <p class="gender_error error text-center alert alert-danger hidden"></p>
+                   
 
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="country">Country:</label>
@@ -271,31 +267,37 @@
                 },
                 success: function(data) {
                     if (data.errors){
-                        $('#myModal').modal('show');
+                        //console.log(data.errors);
+                         $('#myModal').modal('toggle');
+                         $('#myModal').modal('show');
                         if(data.errors.fname) {
-                              //dd(data.errors.fname);
                             $('.fname_error').removeClass('hidden');
-                            $('.fname_error').text("First name can't be empty !");
+                            $('.fname_error').text(data.errors.fname.toString());
                         }
+                        
                         if(data.errors.lname) {
                             $('.lname_error').removeClass('hidden');
-                            $('.lname_error').text("Last name can't be empty !");
+                            $('.lname_error').text(data.errors.lname.toString());
                         }
+                        
                         if(data.errors.email) {
                             $('.email_error').removeClass('hidden');
-                            $('.email_error').text("Email must be a valid one !");
+                            $('.email_error').text(data.errors.email.toString());
                         }
+                        
                         if(data.errors.country) {
                             $('.country_error').removeClass('hidden');
-                            $('.country_error').text("Country must be a valid one !");
+                            $('.country_error').text(data.errors.country.toString());
                         }
                         if(data.errors.salary) {
                             $('.salary_error').removeClass('hidden');
-                            $('.salary_error').text("Salary must be a valid format ! ");
+                            $('.salary_error').text(data.errors.salary.toString());
                         }
-                       // $('#myModal').modal('show');
+                          $('#myModal').modal('toggle');
+                         $('#myModal').modal('show');
+                       
                     }else{
-                        
+                        console.log("no error");
                     $('.error').addClass('hidden');
                       
                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" +
@@ -305,7 +307,7 @@
                             "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
                     location.reload();
                     }
-                    }
+                }
                     /*  
                      $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.first_name +
                             "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
@@ -335,34 +337,40 @@
                 },
                 success: function(data) {
                     if (data.errors){
-                       
+                     $('#myModal').modal('toggle');
+                         $('#myModal').modal('show');
                         if(data.errors.fname) {
                             $('.fname_error').removeClass('hidden');
-                            $('.fname_error').text("First name can't be empty !");
+                            $('.fname_error').text(data.errors.fname.toString());
                         }
+                        
                         if(data.errors.lname) {
                             $('.lname_error').removeClass('hidden');
-                            $('.lname_error').text("Last name can't be empty !");
+                            $('.lname_error').text(data.errors.lname.toString());
                         }
+                        
                         if(data.errors.email) {
                             $('.email_error').removeClass('hidden');
-                            $('.email_error').text("Email must be a valid one !");
+                            $('.email_error').text(data.errors.email.toString());
                         }
+                        
                         if(data.errors.country) {
                             $('.country_error').removeClass('hidden');
-                            $('.country_error').text("Country must be a valid one !");
+                            $('.country_error').text(data.errors.country.toString());
                         }
                         if(data.errors.salary) {
                             $('.salary_error').removeClass('hidden');
-                            $('.salary_error').text("Salary must be a valid format ");
+                            $('.salary_error').text(data.errors.salary.toString());
                         }
-                        $('#myModal').modal('show');
+                          $('#myModal').modal('toggle');
+                         $('#myModal').modal('show');
                     }
                     else {
                         $('.error').addClass('hidden');
             
                         $('#table').append("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.first_name +"</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
                             data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +"</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
+                        location.reload();
                     }
                 }
                     
@@ -390,6 +398,7 @@
         $('.modal-footer').on('click', '#close', function() {
             location.reload();
         }); 
+
 </script>
 
 </body>
