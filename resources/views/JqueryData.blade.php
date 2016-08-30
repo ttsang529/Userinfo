@@ -14,7 +14,8 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 <script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+ </script>
 </head>
 <style>
 </style>
@@ -31,7 +32,7 @@
 
         <div class="pull-right">
 				<button type="button" class="create-modal btn btn-success">  
-                <span class="glyphicon glyphicon-edit"></span>
+                <span class="glyphicon glyphicon-plus-sign"></span>
 					  Create Item
 				</button>
 		</div>
@@ -62,7 +63,7 @@
                         <td>{{$item->country}}</td>
                         <td>{{$item->salary}}</td>
                         <td>
-                            <button class="edit-modal btn btn-info"
+                            <button class="edit-modal btn btn-info "
                                 data-info="{{$item->id}},{{$item->first_name}},{{$item->last_name}},{{$item->email}},{{$item->gender}},{{$item->country}},{{$item->salary}}">
                                 <span class="glyphicon glyphicon-edit"></span> Edit
                             </button>
@@ -76,7 +77,7 @@
 			</table>
 		</div>
 	</div>
-
+</div>
 
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -85,8 +86,8 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title"></h4>
-
 				</div>
+                
 				<div class="modal-body">
 					<form class="form-horizontal" role="form">
 					   <!--  <div class="form-group">-->
@@ -103,21 +104,27 @@
 								<input type="name" class="form-control" id="fname">
 							</div>
 						</div>
+
 						<p class="fname_error error text-center alert alert-danger hidden"></p>
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="lname">Last Name:</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="lname">
 							</div>
 						</div>
+
 						<p class="lname_error error text-center alert alert-danger hidden"></p>
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="email">Email</label>
 							<div class="col-sm-10">
 								<input type="email" class="form-control" id="email">
 							</div>
 						</div>
+
 						<p class="email_error error text-center alert alert-danger hidden"></p>
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="gender">Gender</label>
 							<div class="col-sm-10">
@@ -128,55 +135,56 @@
 								</select>
 							</div>
 						</div>
+                        <p class="gender_error error text-center alert alert-danger hidden"></p>
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="country">Country:</label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="country">
 							</div>
 						</div>
-						<p
-							class="country_error error text-center alert alert-danger hidden"></p>
+						<p class="country_error error text-center alert alert-danger hidden"></p>
+
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="salary">Salary </label>
 							<div class="col-sm-10">
 								<input type="name" class="form-control" id="salary">
 							</div>
 						</div>
-						<p
-							class="salary_error error text-center alert alert-danger hidden"></p>
-					</form>
+						<p class="salary_error error text-center alert alert-danger hidden"></p>
 
+					</form>
+	
 
 					<div class="deleteContent">
 						Are you Sure you want to delete <span class="dname"></span> ? <span
 							class="hidden did"></span>
 					</div>
+
 					<div class="modal-footer">
 						<button type="button" class="btn actionBtn" data-dismiss="modal">
 							<span id="footer_action_button" class='glyphicon'> </span>
 						</button>
-						<button type="button" class="btn btn-warning" data-dismiss="modal">
+						<button type="button" class="btn btn-warning" id="close" data-dismiss="modal">
 							<span class='glyphicon glyphicon-remove'></span> Close
 						</button>
 					</div>
-
-
-				</div>
+                </div>			
 			</div>
 		</div>
-	</div>
+
 
   <script>
         $(document).ready(function() {
             $('#table').DataTable();
-        } );
+        });
 
         
         $(document).on('click', '.edit-modal', function() {
             $('#footer_action_button').text(" Update");
             $('#footer_action_button').addClass('glyphicon-check');
             $('#footer_action_button').removeClass('glyphicon-trash');
-            $('.actionBtn').addClass('btn-success');
+            $('.actionBtn').addClass('btn-info');
             $('.actionBtn').removeClass('btn-danger');
             $('.actionBtn').removeClass('delete');
             $('.actionBtn').removeClass('create');
@@ -224,6 +232,8 @@
             $('#myModal').modal('show');
         });
 
+
+
              
         function fillmodalData(details){
             $('#fid').val(details[0]);
@@ -245,7 +255,7 @@
             $('#salary').val("");
         }
 
-        $('.modal-footer').on('click', '.edit', function() {
+        $('.modal-footer').on('click', '.edit', function(){
             $.ajax({
                 type: 'post',
                 url: '/editItem',
@@ -263,6 +273,7 @@
                     if (data.errors){
                         $('#myModal').modal('show');
                         if(data.errors.fname) {
+                              //dd(data.errors.fname);
                             $('.fname_error').removeClass('hidden');
                             $('.fname_error').text("First name can't be empty !");
                         }
@@ -280,19 +291,21 @@
                         }
                         if(data.errors.salary) {
                             $('.salary_error').removeClass('hidden');
-                            $('.salary_error').text("Salary must be a valid format ! (ex: #.##)");
+                            $('.salary_error').text("Salary must be a valid format ! ");
                         }
-                    }
-                    else {
+                       // $('#myModal').modal('show');
+                    }else{
                         
-                        $('.error').addClass('hidden');
+                    $('.error').addClass('hidden');
                       
                     $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" +
                             data.id + "</td><td>" + data.first_name +
                             "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
                             data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +
                             "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-                    }}
+                    location.reload();
+                    }
+                    }
                     /*  
                      $('.item' + data.id).replaceWith("<tr class='item" + data.id + "'><td>" + data.first_name +
                             "</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
@@ -300,6 +313,7 @@
                             "</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
                     }}
                     */
+                    
             });
         });
 
@@ -321,7 +335,7 @@
                 },
                 success: function(data) {
                     if (data.errors){
-                        $('#myModal').modal('show');
+                       
                         if(data.errors.fname) {
                             $('.fname_error').removeClass('hidden');
                             $('.fname_error').text("First name can't be empty !");
@@ -340,18 +354,17 @@
                         }
                         if(data.errors.salary) {
                             $('.salary_error').removeClass('hidden');
-                            $('.salary_error').text("Salary must be a valid format ! (ex: #.##)");
+                            $('.salary_error').text("Salary must be a valid format ");
                         }
+                        $('#myModal').modal('show');
                     }
                     else {
-                        
                         $('.error').addClass('hidden');
             
                         $('#table').append("<tr class='item" + data.id + "'><td>" + data.id + "</td><td>" + data.first_name +"</td><td>" + data.last_name + "</td><td>" + data.email + "</td><td>" +
                             data.gender + "</td><td>" + data.country + "</td><td>" + data.salary +"</td><td><button class='edit-modal btn btn-info' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"'><span class='glyphicon glyphicon-edit'></span> Edit</button> <button class='delete-modal btn btn-danger' data-info='" + data.id+","+data.first_name+","+data.last_name+","+data.email+","+data.gender+","+data.country+","+data.salary+"' ><span class='glyphicon glyphicon-trash'></span> Delete</button></td></tr>");
-
-
-                    }}
+                    }
+                }
                     
             });
         });
@@ -372,6 +385,11 @@
                 }
             });
         });
+
+
+        $('.modal-footer').on('click', '#close', function() {
+            location.reload();
+        }); 
 </script>
 
 </body>
