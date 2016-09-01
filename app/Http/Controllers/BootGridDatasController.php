@@ -27,8 +27,8 @@ class BootGridDatasController extends Controller
     public function Jqueryedit(Request $request) {
 	
 		$rules = array (
-				'fname' => 'required|alpha',
-				'lname' => 'required|alpha',
+				'fname' => 'required|alpha_dash',
+				'lname' => 'required|alpha_dash',
 				'email' => 'required|email',
 				'gender' => 'required',
 				'country' => 'required|regex:/^[\pL\s\-]+$/u',
@@ -59,8 +59,8 @@ class BootGridDatasController extends Controller
 			//return redirect('Jquery');
 			//return redirect()->action('BootGridDatasController@Jqueryindex');
 			$rules = array (
-					'fname' => 'required|alpha',
-					'lname' => 'required|alpha',
+					'fname' => 'required|string',
+					'lname' => 'required|string',
 					'email' => 'required|email',
 					'gender' => 'required',
 					'country' => 'required|regex:/^[\pL\s\-]+$/u',

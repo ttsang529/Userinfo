@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>DOM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            function get(id){
+                return document.getElementById(id);
+            }
+
+            function changeToImg(){
+                //var page=document.getElementById("page");
+                //var img=document.getElementById("img");
+                //var btn=document.getElementById("btn");
+
+                
+                $("#page").style.fontWeight="100";
+                $("#img").style.fontWeight ="900";
+                $("#img").style.color="red";
+                $("#page").style.color="black";
+                $("#btn").value="Image Search";
+            }
+
+            function changeToPage(){
+                var page=document.getElementById("page");
+                var img=document.getElementById("img");
+                var btn=document.getElementById("btn");
+                
+                img.style.fontWeight = "100";
+                page.style.fontWeight = "900";
+                page.style.color="blue";
+                img.style.color="black";
+                btn.value="Page Search";
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <span id="page" onclick="changeToPage()">Page</span>
+            <span id="img" onclick="changeToImg()">Image</span>
+        </div>
+        <div>
+            <input type="text" />
+            <input id="btn" type="button" value="Page Search" />
+        </div>
+    </body>
+</html>

@@ -182,6 +182,7 @@
             $('#footer_action_button').removeClass('glyphicon-trash');
             $('.actionBtn').addClass('btn-info');
             $('.actionBtn').removeClass('btn-danger');
+            $('.actionBtn').removeClass('btn-success');
             $('.actionBtn').removeClass('delete');
             $('.actionBtn').removeClass('create');
             $('.actionBtn').addClass('edit');
@@ -200,6 +201,7 @@
             $('#footer_action_button').removeClass('glyphicon-trash');
             $('.actionBtn').addClass('btn-success');
             $('.actionBtn').removeClass('btn-danger');
+            $('.actionBtn').removeClass('btn-info');
             $('.actionBtn').removeClass('delete');
             $('.actionBtn').removeClass('edit');
             $('.actionBtn').addClass('create');
@@ -215,9 +217,11 @@
             $('#footer_action_button').text(" Delete");
             $('#footer_action_button').removeClass('glyphicon-check');
             $('#footer_action_button').addClass('glyphicon-trash');
-            $('.actionBtn').removeClass('btn-success');
             $('.actionBtn').addClass('btn-danger');
+            $('.actionBtn').removeClass('btn-success');
+            $('.actionBtn').removeClass('btn-info');
             $('.actionBtn').removeClass('edit');
+            $('.actionBtn').removeClass('create');
             $('.actionBtn').addClass('delete');
             $('.modal-title').text('Delete');
             $('.deleteContent').show();

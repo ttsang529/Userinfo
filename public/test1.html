@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+         <script>
+/*     
+        var n=prompt("Enter a Number","");
+        for(var i=2;i<n;i++){
+            if(n%i==0){
+                alert("Not Prime");
+                break;
+            }else if (i==n-1){
+                alert("Prime");
+            }
+        }
+*/
+/*
+     var n=prompt("Enter a Number","");
+     var isPrime=true;
+     for(var i=2;i<n;i++){
+         if(n%i==0){
+             isPrime=false;
+             break;
+         }
+     }      
+
+     if(isPrime){
+         alert("Prime");
+     }else{
+         alert("Not Prime");
+     }
+*/
+/*
+    var x=3;
+    var outer=function(){
+        y=3;
+        inner=function(){
+            var z=5;
+            return x+y+z;
+        }
+        return inner();
+    }   
+console.log(outer());
+*/
+//new function be object
+/*
+var x=3;
+console.log(x);
+var outer={
+    y:3,
+    inner:function(){
+        var z=5;
+        console.log("inner")
+        return x+this.y+z;
+    }
+}
+console.log(outer.inner());
+*/
+/*
+function Person(gender) {
+  this.gender = gender;
+  alert('Person instantiated');
+}
+
+var person1 = new Person('Male');
+var person2 = new Person('Female');
+
+//display the person1 gender
+alert('person1 is a ' + person1.gender); // person1 is a Male
+*/
+function Person(gender) {
+  this.gender = gender;
+}
+
+Person.prototype.sayGender = function()
+{
+  alert(this.gender);
+};
+
+var person1 = new Person('Male');
+var genderTeller = person1.sayGender;
+
+person1.sayGender(); // alerts 'Male'
+genderTeller; // alerts undefined
+alert(genderTeller === person1.sayGender); // alerts true
+alert(genderTeller === Person.prototype.sayGender); // alerts true
+    </script>
+    </head>
+    <body>
+        
+
+    </body>
+
+</html>

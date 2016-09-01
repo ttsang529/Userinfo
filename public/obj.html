@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <script src="lib.js"></script>
+    <script>
+
+        //build up object
+
+        player1=new createPlayerObject("Tommy",70);
+        player2=new createPlayerObject("ttsang",100);
+        //use objects
+         createPlayerObject.prototype.superRest=function(){
+             this.hp=this.hp+10;
+        };
+        player1.superfight=getSuperfight;
+        player1.report(); 
+        player2.report();
+        player1.superfight(player2);
+        player1.report();
+        player1.superRest();
+        player1.report();
+        player2.report();
+        
+    </script>
+    <body>
+        
+    </body>
+</html>

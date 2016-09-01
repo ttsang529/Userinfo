@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>HTML DOM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
+        </script>
+    </head>
+    <script>
+        //alert(window.screen.width+"x"+window.screen.height);
+        //alert(window.navigator.userAgent);
+        // if(window.screen.width<500){
+        //     window.document.location="http://www.google.com";
+        // }
+        function change(){
+            var obj=document.getElementById("content");
+            obj.innerHTML="Today is a bad day.";
+            obj.style.color="red";
+        }
+    </script>
+    <body>
+        <h3>Title 1</h3>
+        <div id="content">
+            Today is a good day.
+        </div>
+
+        <button onclick="change();">Click</button>
+    </body>
+    <script>
+        //document.body.innerHTML="Hello <u>World</u> 2";
+        //alert(document.body.innerHTML);
+        //var obj=document.getElementById("content");
+        //obj.innerHTML="Today is a bad day.";
+        //alert(obj.id);
+        //obj.style.color="red";
+        //console.lg($(#content).val());
+        //$( "div" ).html( "<span class='red'>Hello <b>Again</b></span>" );
+    </script>
+</html>

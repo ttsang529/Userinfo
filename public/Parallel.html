@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Parallel</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            var obj=new Object();
+            obj.level2=new Object();
+            obj.level2.level3=new Object();
+            obj.level2.Point=function(x,y){
+                this.x=x;
+                this.y=y;
+            }
+            var p1= new obj.level2.Point(3.4);
+    
+            /*
+            function Point(x,y){
+                this.x=x;
+                this.y=y;
+            }
+
+            function Line(p1,p2){
+                this.p1=p1;//p1 be point object
+                this.p2=p2;
+                //to check parllallel with other line
+                this.checkParallel=function(other){
+                    var slope1=(this.p2.y-this.p1.y)/(this.p2.x-this.p1.x);
+                    var slope2=(other.p2.y-other.p1.y)/other.p2.x-other.p1.x);
+                    if (slope1==slope2){
+                        alert("Parallel");
+                    }else{
+                        alert("Not Paraller");
+                    }
+
+                };
+            }
+
+            var line1=new Line(new Point(1,1),new Point(1,2));
+            var line2=new Line(new Point(2,1),new Point(4,2));
+            line1.checkParallel(line2);
+            */
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>
