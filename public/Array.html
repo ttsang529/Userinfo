@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Array</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+        <script>
+            /*
+                var n=Number(prompt("How many student"));
+                var grades=new Array(n);
+                for(var i=0;i<grades.length;i++){
+                    grades[i]=Number(prompt("Enter a grade",""));
+                }
+
+                var sum = grades.reduce(function(a, b) { return a + b; }, 0);
+                var average= sum/grades.length;
+                alert(average);
+            
+            window.onload=function(){
+                var tags = document.getElementsByClassName("tag");
+                
+                for (var i=0;i<tags.length;i++){
+                    tags[i].style.color="blue";
+                }
+                console.log(tags);
+            }
+            */
+            window.onload=function(){
+                            $(".tag").css("color","red");
+
+            }
+            function check(){
+                var gender=document.getElementById("gender");
+                if(gender.selectedIndex==0){
+                    alert("select gender");
+                }else{
+                    var option=gender.options[gender.selectedIndex];
+                    alert(option.value);
+                }
+            }
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <select id = "gender">
+            <option value="Gender">Gender</option>
+            <option value="Males">Male</option>
+            <option value="Females">Female</option>
+        </select>
+        <button onclick="check()">check</button>
+        <div>
+            <span class="tag">Page</span>
+            <span class="tag">Image</span>
+            <span class="tag">Map</span>
+        </div>
+    </body>
+</html>

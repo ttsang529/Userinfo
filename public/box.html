@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Drag</title>
+        <script>
+        /*
+            //click and drag
+            function init(){
+                box=document.getElementById("box");
+                box.addEventListener("click",pickup);
+            }
+            function pickup(){
+                document.addEventListener("mousemove",move);
+                box.removeEventListener("click",pickup);
+                box.addEventListener("click",putdown);
+            }
+            function move(e){
+                box.style.left = (e.clientX-20)+"px";
+                box.style.top  = (e.clientY-20)+"px";
+            }
+            function putdown(){
+                document.removeEventListener("mousemove",move);
+                box.addEventListener("click",pickup);
+                box.removeEventListener("click",putdown);
+            }
+        */
+          //drag and drag
+        var differX,differY;
+        function init(){
+                box=document.getElementById("box");
+                box.addEventListener("mousedown",pickup);
+                box.addEventListener("mouseup",putdown);
+            }
+        function pickup(e){
+                differX=e.clientX-box.offsetLeft;
+                differY=e.clientY-box.offsetTop;
+                document.addEventListener("mousemove",move);
+             
+            }
+        function move(e){
+                // box.style.left = (e.clientX-20)+"px";
+                // box.style.top  = (e.clientY-20)+"px";
+                 box.style.left = (e.clientX-differX)+"px";
+                 box.style.top  = (e.clientY-differY)+"px";
+
+            }
+        function putdown(){
+                document.removeEventListener("mousemove",move);
+             
+            }
+        </script>
+        <style type="text/css">
+            .box{
+                width:100px;height:100px;background-color:red;
+                position:absolute;top:50px;left:50px;
+            }
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body onload="init();">
+        <div class="box" id="box"></div>
+    </body>
+</html>

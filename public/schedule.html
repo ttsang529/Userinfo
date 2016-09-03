@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Schedule</title>
+        <script>
+            var timer;
+            var intervalId;
+            function init(){
+                timer=document.getElementById("timer");
+                timer.innerHTML=Math.round(Math.abs(Math.random()*10)/2);
+                //window.setTimeout(countdown,1000);
+                intervalId=window.setInterval(countdown,1000);
+            }
+            function alerttest(){
+                alert(Math.round(Math.random()*40+60));
+            }
+            function google(){
+                document.location="http://www.google.com";
+            }
+            function countdown(){
+                timer.innerHTML=timer.innerHTML-1;
+                if (timer.innerHTML>0){
+                    //window.setTimeout(countdown,1000);
+                }else{
+                    //alerttest();
+                    //window.setTimeout(google,3000);
+                    alerttest();
+                    window.clearInterval(intervalId);
+                    //google();
+                }
+            }
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body onload="init();">
+        <span id = "timer"></span>
+    </body>
+</html>
