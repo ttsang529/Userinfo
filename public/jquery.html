@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Jquery</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script>
+        
+           //Static content load in and trigger ready to run 
+           //javascript format
+           /*
+                window.addEventListenser("load",function(){
+                    alert("Hello");
+                });
+              
+            $(document).ready(function(){
+                alert("hello");
+            });
+             */ 
+             function go(){
+                 var links=$("a"); //links is jquery object
+                 links.attr("target","_blank");
+                 $(".title").css("letter-spacing","5px");
+                 //$("#sully").html("薩利機長");
+                 
+                 var element=document.getElementById("sully");
+                 //element.innerHTML="薩利機長"; //use javascipt
+                 //use javascript get element and put element on  jquery object function
+                 $(element).html("薩利機長").fadeOut();  
+                 
+                 $("#movies > .item").css("font-weight",'hold')
+             };
+            
+        </script>
+        <style type="text/css">
+            .title{font-size:24px;font-weight:hold;}
+            .item{display:inline-block;margin-right:15px;}
+        </style>
+    </head>
+    <body>
+        <div class="title" >Favorites</div>
+        <ul>
+            <li class="item"><a href="http://www.google.com/">Google</a></li>
+            <li class="item"><a href="http://www.facebook.com/">Facebook</a></li>
+           
+        </ul>
+        <div class="title">Movies</div>
+        <ul id="movies">
+            <li class="item" id="sully">Sully</li>
+            <li class="item">Barry Potter</li>
+             <button onclick="go();">GO</button>
+        </ul>
+        <form action="http://www.google.com/" onsubmit="return check();">
+            Name  <input type="text" id="name" /><br/>
+            Email <input type="text" id="email"/><br/>
+            <select id="gender">
+                <option value="gender">Gender</option>
+                <option value="male">Male</option>
+                <option value="female" >Female</option>
+                <input type="submit" value="Send"/>
+            </select>
+        </form>
+        <script>
+            function check(){
+                alert($("#gender").val());
+                if($("#name").val()==""){   //check the name full be empty
+                    alert("Please enter a name");
+                    return false;
+                }else{
+                    return true;
+                }
+                
+            }
+        </script>
+    </body>
+</html>

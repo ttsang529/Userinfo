@@ -1,18 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Javascript</title>
+        <title>javascript</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-        
-        </style>
         <script>
-            alert(true);
-            alert(17.99);
+      /*  
+            var test=function(n1,n2,callback){
+                callback(n1*n2);
+            }
+            var handler=function(result){
+                alert(result);
+            }
+            var handler2=function(result){
+                document.title=result;
+            }
+
+            //test(10,3,handler);
+            test(10,2,handler2);
+            test(10,5,function(result){
+                    alert(result);
+            });
+                     
+            var point=new Object();
+            point.x=3;
+            point["y"]=4;
+            point.show=function(){
+                alert(this.x+","+this.y);
+            };
+
+            
+            var point={"x":3,"y":4,"show":function(){
+                alert(this.x+","+this.y);
+            }};
+            point.show()
+            //object format 
+            var test=function(args){
+                args.callback(args.n1*args.n2);
+            }
+
+            var data=new Object();
+            data.n1=3;
+            data.n2=4;
+            data.callback=function(result){
+                alert(result);
+            };
+            test(data);
+            
+             var test=function(args){
+                args.callback(args.n1*args.n2);
+            }
+            test({"n1":3,"n2":4,"callback":function(result){
+                alert(result);
+            }});
+           
+            var Point=function(x,y){
+                this.x=x;
+                this.y=y;
+            }
+            var p=new Point(3,4);
+            alert(p.x);
+             */
+             var lib={};
+             lib.Point=function(x,y){
+                 this.x=x;
+                 this.y=y;
+             };
+             var p=new lib.Point(3,4);
+             alert(p.x);
+
+
         </script>
     </head>
     <body>
-    
+        hello world test
     </body>
 </html>
