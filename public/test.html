@@ -1,0 +1,35 @@
+         <div class="panel_container tm_tabs_cont">
+                        <dl class="topoptions">
+                            <input type="checkbox" id="ckbxEnableSmtp" /><span class="highlight" domain="l10n">Use an SMTP server to send logs</span>
+                            <dd>
+                                <div class="sub_options">
+                                    <dl id="tblSmtpSet" class="topoptions">
+                                        <dd>
+                                            <label><span class="highlight" domain="l10n">Server:</span><span class="mustfill">*</span></label>
+                                            <input type="text" id="smtpServer" />
+                                        </dd>
+                                        <dd>
+                                            <label><span class="highlight" domain="l10n">Port:</span><span class="mustfill">*</span></label>
+                                            <input type="text" id="smtpPort" maxlength="5" />
+                                        </dd>
+                                        <dd>
+                                            <label><span class="highlight" domain="l10n">Sender:</span><span class="mustfill">*</span></label>
+                                            <input type="text" id="smtpSender" />
+                                        </dd>
+                                        <dd>
+                                            <input type="checkbox" id="ckbxSmtpAuthRequired" /><span class="highlight" domain="l10n">SMTP server authentication:</span>
+                                            <dl class="topoptions">
+                                                <div id="tblSmtpAuth" class="sub_options">
+                                                    <dd>
+                                                        <label class="highlight" domain="l10n">User name:</label>
+                                                        <input type="text" id="smtpUser" />
+                                                    </dd>
+                                                    <dd>
+                                                        <label class="highlight" domain="l10n">Password:</label>
+                                                        <input type="password" id="smtpPwd" />
+                                                    </dd>
+                                                </div>
+                                            </dl>
+                                        </dd>
+                                    </dl>
+                                </div> 

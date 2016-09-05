@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>item</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    </head>
+    <script>
+        function JQuery(element){
+            this.element=element;
+            this.fadeIn=function(){
+
+            };
+            this.attr=function(name,value){
+                this.element[name]=value;
+                return this;
+            };
+            this.css=function(){
+                return this;
+            }
+        }
+
+        function $(id){
+            var element=document.getElementById(id);
+            var obj=new JQuery(element);
+            return obj;
+        }
+
+        window.onload=function(){ //$(window).load(function() {
+            $("content").attr("className","test").css();
+        }                          //});
+       
+    </script>
+    <body>
+        <div id="content">
+                Hello world
+        </div>
+    </body>
+</html>

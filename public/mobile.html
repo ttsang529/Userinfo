@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Mobile</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script>
+            //http://192.168.82.158:3333/docs/potter.html
+            //http://192.168.82.158:3333/docs/sully.html
+            function getDetails(name){
+                //use ajax to get dynamic server content
+                var req=new XMLHttpRequest();
+                req.open("get","docs/"+name+".html");
+                req.onload=function(){    //finish load event and get the data
+                    //alert(this.responseText);  //for test responseText
+                    $("#content").html(this.responseText);
+                };
+                req.send();
+            }
+        </script>
+    </head>
+    <body>
+        <div data-role="page" id="home">
+            <div data-role="header">
+                <h1>Homepage</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <ul data-role="listview" data-filter="true" data-filter-placeholder="Search fruits..." data-inset="true">
+                    <li><a href="#details" onclick="getDetails('potter');">Harry Potter</a></li>
+                    <li><a href="#details" onclick="getDetails('sully');">Sully</a></li>
+                </ul>
+            </div>
+            <div data-role="footer">
+                <h1>Contract Us</h1>
+            </div>
+        </div>
+
+        <div data-role="page" id="details">
+            <div data-role="header">
+                <h1>Movie Details</h1>
+            </div>
+            <div><a href="#home">Home page</a></div>
+            <div role="main" class="ui-content" id="content"></div>
+            <div data-role="footer">
+                <h1>Contract Us</h1>
+            </div>
+        </div>
+    </body>
+</html>
