@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>canvas</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+            var cvs,ctx;
+            window.onload=function(){
+                cvs=document.getElementById("cvs");//view
+                cvs.onclick=function(e){
+                    ctx.fillStyle="red";
+                    ctx.fillRect(e.clientX,e.clientY,50,50);
+                };
+                //alert(cvs.width);
+                ctx=cvs.getContext("2d");
+                ctx.fillStyle="red";
+                ctx.fillRect(50,50,50,50); //fillRect default color be block
+                //word fill color
+                ctx.fillStyle="green";
+                ctx.fillText("Hello",50,70);
+                //color for surround rectangle
+                ctx.strokeStyle="blue"; 
+                ctx.strokeRect(50,50,50,50);//stroke outside surround
+
+                //load image
+                var img=new Image();
+                img.src="pretty_woman.jpg";
+                
+                img.onload=function(){
+                    cvs.width=this.width;
+                    cvs.height=this.height;
+                    ctx.drawImage(this,0,0,this.width,this.height);
+                };
+            }
+            function loadFile(input){
+                console.log(input.files[0]);//file object (MDN)
+                var file=input.files[0];
+                var img=new Image();
+                img.src=URL.createObjectURL(file);
+                img.onload=function(){
+                    cvs.width=this.width;
+                    cvs.height=this.height;
+                    ctx.drawImage(this,0,0,this.width,this.height);
+                };
+
+            }
+            function createPicker(){
+                var fileInput=document.getElementById("upload");
+                fileInput.click();
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <button onclick="createPicker();">Open</button>
+            <input id="upload" type="file" onchange="loadFile(this)"; style="display:none" >
+            <input type="color"/>
+        </div>
+        <canvas id="cvs" width="600" height="450" style="border:1px solid black"></canvas>
+    </body>
+</html>

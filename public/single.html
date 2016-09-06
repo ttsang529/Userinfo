@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Single Page Web</title>
+        <meta charset="UTF-8">
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <style>
+            html,body{ width:100%; height:100%; margin:0px;overflow:hidden;}  /*  protect the length column*/
+        .page{
+            width:100%; height:100%; display:flex; flex-direction:column;
+        }
+        .page > .head{flex:0 0 50px;background-color:red;} 
+        .page > .main{flex:1 1 100px;background-color:blue;overflow:auto;}  /*1 <--font flex  1<--end flex 100 size fixed */
+        .page > .bottom{flex:0 0 60px;background-color:green;}
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script>
+            window.addEventListener("hashchange",function(){
+                //alert(window.location.hash);//test
+                changePage(window.location.hash);
+            });
+            function changePage(hash){
+                //hide all the page
+                $(".page").hide();
+                var pageId;
+                if (hash==""){
+                    pageId="home";
+                }else{
+                    pageId=hash.substring(1);
+                }
+                $("#"+pageId).fadeIn();
+            }
+        </script>
+    </head>
+    <body>
+        <div class="page" id="home">
+            <div class="head">Head</div>
+            <div class="main">
+                <!--<div style="height:2000px;">Hello</div>
+                <div>Hello 2</div>-->
+                This is Homepage,Go <a href="#content">Page 2</a>
+            </div>
+            <div class="bottom">Bottom</div>
+        </div>
+        <div class="page" id="content">
+            <div>
+            Page 2 , GO <a href="#home">Back</a>
+            </div>
+        </div>
+    </body>
+</html>
