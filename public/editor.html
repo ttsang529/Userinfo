@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Photo Editor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <script>
+        var cvs,ctx;
+        window.onload=function(){
+            cvs=document.getElementById("cvs");
+            ctx=cvs.getContext("2d");
+        }
+
+        function openFile(){
+            document.getElementById("file-input").click();
+        }
+
+        function loadFile(input){
+            var file=input.files[0];
+            var img=new Image();
+            img.src=URL.createObjectURL(file);
+            //URL.revokeObjectURL(file);
+            img.onload=function(){
+                //console.log(this);
+                cvs.width=this.width;cvs.height=this.height;
+                ctx.drawImage(this,0,0);
+            }
+        }
+        
+        function inverse(){
+            var pixels=ctx.getImageData(0,0,cvs.width,cvs.height);
+            //console.log(pixels.data);
+            //r.g.b.a:0~255
+            for(var i=0;i<pixels.data.length;i+=4){
+                pixels.data[i]=255-pixels.data[i];//red
+                pixels.data[i+1]=255-pixels.data[i+1];//green
+                pixels.data[i+2]=255-pixels.data[i+2];//blue
+            }
+            ctx.putImageData(pixels,0,0);
+        }
+
+        function greyscale(){
+            var pixels=ctx.getImageData(0,0,cvs.width,cvs.height);
+            //r.g.b.a:0~255
+            var avg;
+            for(var i=0;i<pixels.data.length;i+=4){
+                avg=(pixels.data[i]+pixels.data[i+1]+pixels.data[i+2])/3;
+                avg=Math.round(avg);
+                pixels.data[i]   = avg;
+                pixels.data[i+1] = avg;
+                pixels.data[i+2] = avg;
+            }
+            ctx.putImageData(pixels,0,0);
+        }
+
+        function downloadFile(){
+            cvs.toBlob(function(blob){
+                var link=document.getElementById("download-link");
+                link.href=URL.createObjectURL(blob);
+                link.download="image.png";
+                link.click();
+            },"image/png");
+        }
+
+//style="position:absolute;top:-99999px;"
+//style="display:none
+//<a download="abc" href="http://www.google.com">Google</a>
+    </script>
+    <body>
+        <div>
+            <button onclick="openFile()">Open</button>
+            <input id="file-input" type="file" onchange="loadFile(this);" style="display:none" />
+            <button onclick="inverse()">inverse</button>
+            <button onclick="greyscale()">grayscale</button>
+            <button onclick="downloadFile()">Download</button>
+            <a id="download-link"></a>
+        </div>
+        <canvas id="cvs" width="0" height="0"></canvas>
+    </body>
+</html>

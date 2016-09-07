@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Scroll</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .box{width:100px;height:100px;background-color:red;
+        position: relative; left:1500px;transition:left 1s }
+    </style>
+    <script>
+        var box;
+        window.onload=function(){
+            box=document.getElementById("box");
+            window.addEventListener("scroll",function(){
+                var rect=box.getBoundingClientRect();
+                if(rect.top  < window.innerHeight){
+                    box.style.left="0px";
+                }
+                console.log(rect.top+" and "+window.innerHeight);
+            });
+        }
+    </script>    
+    </head>
+    <body>
+        <div style="height:2000px;border:1px solid #8888888"> Hello 1</div>
+        <div class="box" id="box"></div>
+        <div style="height:2000px;border:1px solid #8888888"> Hello 2</div>
+    </body>
+</html>
