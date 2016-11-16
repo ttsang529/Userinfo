@@ -1,0 +1,247 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Game</title>
+<script>
+var ga={
+    "dom":{"loading":null,"main":null,"game":null},
+	"ctx":null, "audioCtx":null,
+	"res":{
+		"total":4, "loaded":0,
+		"imgs":{"plane":"/images/plane.png", "explosion":"/images/explosion.png"},
+		"sounds":{"bullet":"/audio/sound-bullet.mp3", "explosion":"/audio/sound-explosion.mp3"}
+	},
+    //play game use data
+    "data":{"circle":null,"drawables":null},
+    "key":{"space":false,"left":false,"top":false,"right":false,"bottom":false},
+    "lib":{},"evts":{}
+};
+window.onload=function(){
+    //init DOM object
+    ga.dom.loading=document.getElementById("loading");
+    ga.dom.main=document.getElementById("main");
+    ga.dom.game=document.getElementById("game");
+    //onloading canvas environment
+    ga.ctx=document.getElementById("cvs").getContext("2d");
+
+	// init sound Context environment
+	ga.audioCtx=new AudioContext();
+
+	// loading resource
+	ga.loadResources();
+};
+ga.loadResources=function(){
+	ga.loadImages();
+	ga.loadSounds();
+};
+	// 載入影像檔案
+	ga.loadImages=function(){
+		for(var name in ga.res.imgs){
+			ga.loadImage(name, ga.res.imgs[name]);
+		}
+	};
+	ga.loadImage=function(name, src){
+		var img=new Image();
+		img.src=src;
+		img.onload=function(){
+			ga.res.imgs[name]=this;
+			ga.resourceLoaded();
+		};
+	};
+	// 載入音效檔案
+	ga.loadSounds=function(){
+		for(var name in ga.res.sounds){
+			ga.loadSound(name, ga.res.sounds[name]);
+		}
+	};
+	ga.loadSound=function(name, src){
+		var req=new XMLHttpRequest();
+		req.open("get", src); // 設定連線方法和網址
+		req.responseType="arraybuffer"; // 設定回傳的資料型態
+		req.onload=function(){ // 註冊 load 事件
+			ga.audioCtx.decodeAudioData(this.response, function(buffer){
+				ga.res.sounds[name]=buffer;
+				ga.resourceLoaded();
+			});
+		};
+		req.send(); // 送出連線
+	};
+	// 資源載入進度的偵測
+	ga.resourceLoaded=function(){
+		ga.res.loaded++;
+        ga.dom.loading.innerHTML=
+            (100*ga.res.loaded/ga.res.total)+"%";
+		if(ga.res.loaded>=ga.res.total){
+			ga.initMain();
+		}
+	};
+ga.initMain=function(){
+	// 啟動遊戲的主選單
+    ga.dom.loading.style.display="none";
+    ga.dom.game.style.display="none";
+    ga.dom.main.style.display="block";
+};
+
+ga.initGame=function(){
+    //game Start
+    //switch game view
+    ga.dom.main.style.display="none";
+    ga.dom.game.style.display="block";
+    //init game data
+    ga.data.plane=new ga.lib.Plane();
+    ga.data.circle=0;
+    ga.data.drawables=[];
+    ga.data.drawables.push(ga.data.plane);
+    //build up keyboard control
+    document.addEventListener("keydown",ga.evts.keydown);
+    document.addEventListener("keyup",ga.evts.keyup);
+    //begin game update schedule
+    //window.setInterval(ga.refreshGame,20);
+    window.setInterval(ga.refreshGame,20);
+};
+
+    ga.evts.keydown=function(e){
+       
+        var code=e.keyCode;
+      
+        if (code==37){         //left
+            ga.key.left=true;
+        }else if (code==38){   //top
+            ga.key.top=true;
+        }else if (code==39){   //right
+            ga.key.right=true;
+        }else if (code==40){   //down
+            ga.key.bottom=true;
+        }else if (code==32){   //space
+            ga.key.space=true; 
+        }
+    };
+    ga.evts.keyup=function(e){
+       
+        var code=e.keyCode;
+        if (code==37){         //left
+            ga.key.left=false;
+        }else if (code==38){   //top
+            ga.key.top=false;
+        }else if (code==39){   //right
+            ga.key.right=false;
+        }else if (code==40){   //down
+            ga.key.bottom=false;
+        }else if (code==32){   //space
+            ga.key.space=false;
+        }
+    };
+
+
+ga.refreshGame=function(){
+    //update data
+    for (var i=0;i<ga.data.drawables.length;i++){
+        if(ga.data.drawables[i].update()){
+            ga.data.drawables.splice(i,1);
+            i--;
+        }
+    }
+    //clear view
+    ga.ctx.fillRect(0,0,ga.ctx.canvas.width,ga.ctx.canvas.height);
+    //update view
+    for (var i=0;i<ga.data.drawables.length;i++){
+        ga.data.drawables[i].draw();
+    }
+    //update new round 
+    ga.data.circle++;
+};
+
+//prepare playsound function
+ga.playSound=function(buffer){
+    var source = ga.audioCtx.createBufferSource();
+    source.buffer=buffer;
+    source.connect(ga.audioCtx.destination);
+    source.start();
+}
+
+
+
+//construct (lib)
+ga.lib.Plane=function(){
+    this.x=ga.ctx.canvas.width/2;
+    this.y=ga.ctx.canvas.height/2;
+    this.size=20;
+    this.update=function(){
+        this.x=ga.ctx.canvas.width/2;
+        this.y=ga.ctx.canvas.height/2;
+        this.size=20;
+        this.speed=2;
+        this.update=function(){
+                    if (ga.key.left){
+                        //this.x--;
+                        this.x-=this.speed;
+                    }
+                    if (ga.key.right){
+                        //this.x++;
+                        this.x+=this.speed;
+                    }
+                    if (ga.key.top){
+                        //this.y--;
+                        this.y-=this.speed;
+                    }
+                    if (ga.key.bottom){
+                        //this.y++;
+                        this.y+=this.speed;
+                    }
+                    if (ga.key.space){
+                        this.fire();
+                    }
+            return false;
+        };
+    };
+
+    this.fire=function(){
+        if (ga.data.circle%10==0){
+             ga.data.drawables.push(new ga.lib.Bullet(this.x,this.y-10));
+             ga.playSound(ga.res.sounds.bullet);
+        }
+       
+    };
+
+    this.draw=function(){
+        ga.ctx.save();
+        ga.ctx.drawImage(ga.res.imgs.plane, this.x - this.size/2 , this.y-this.size/2 , this.size , this.size);
+        ga.ctx.restore();
+    }
+}
+
+ga.lib.Bullet=function(x,y){
+    this.x=x;
+    this.y=y;
+    this.vy=-3;
+    this.size=3;
+    this.update=function(){
+        this.y+=this.vy;
+
+        //bullet will disappear if over the upper screen
+        return this.y<0; 
+    };
+    this.draw=function(){
+        ga.ctx.save();
+        ga.ctx.fillStyle="white";
+        ga.ctx.beginPath();
+        ga.ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
+        ga.ctx.fill();
+        ga.ctx.restore();
+    };
+}
+</script>
+</head>
+<body>
+    <div id="loading"></div>
+    <div id="main" style="display:none">
+        <button onclick="ga.initGame()">Start</button>
+    </div>
+    <div id="game" style="display:none">
+        <!--
+            canvas id="cvs" width="640" height="480"></canvas>
+        -->    
+        <canvas id="cvs" width="1080" height="400"></canvas>
+    </div>
+</body>
+</html>

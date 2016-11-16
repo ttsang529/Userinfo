@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Audio</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <script>
+        var audio;
+        var sounds;
+        window.onload=function(){
+            //audio=new AudioContext();
+            audio=new(window.AudioContext || window.webkitAudioContext);
+            sounds={};
+            loadSound("/audio/kick.wav",'kick');
+            loadSound("/audio/snare.wav",'snare');
+            loadSound("/audio/hihat.wav",'hihat');
+            loadSound("/audio/sound-bullet.mp3",'bullet');
+        };
+        function loadSound(src,name){
+            var req=new XMLHttpRequest();
+            req.open("get",src);
+            req.responseType="arraybuffer";
+            req.onload=function(){
+                var response=this.response;//ArrayBuffer object
+                //ArrayBuffer object transfer AndioBuffer
+                audio.decodeAudioData(response,function(buffer){
+                    sounds[name]=buffer;
+                });
+            };
+            req.send();
+        }
+        //buffer = AudioBuffer
+        function playSound(buffer,time){
+            var source =  audio.createBufferSource();
+            source.buffer=buffer;
+            source.connect(audio.destination);
+            source.start(time);
+        }
+
+        function playMusic(){
+            var StartTime = audio.currentTime;
+            var unitTime=0.2;
+            var baseTime;
+            for (var bar=0;bar<10;bar++){
+                unitTime = Math.random() * (0.4 - 0.1) + 0.1;
+                baseTime=StartTime+bar*8*unitTime;
+                //1,5 kick
+                playSound(sounds.kick,baseTime);
+                playSound(sounds.kick,baseTime+4*unitTime);
+                //3,7 snare
+                playSound(sounds.snare,baseTime+3*unitTime);
+                playSound(sounds.snare,baseTime+7*unitTime);
+                //1~8 hihat
+                for (var i=1;i<8;i++){
+                playSound(sounds.hihat,baseTime+i*unitTime);
+                //playSound(sounds.bullet,baseTime+i*unitTime);
+                }
+               
+            }
+
+        }
+
+        /*
+        bar:0, startTime+bar*8*unitTime
+            1   2   3   4   5   6   7   8
+            k               k
+                    s               s
+            h   h   h   h   h   h   h   h
+
+        bar:1, startTime+bar*8*unitTime
+            1   2   3   4   5   6   7   8
+            k               k
+                    s               s
+            h   h   h   h   h   h   h   h
+        */
+
+    </script>
+    <body>
+        
+    </body>
+</html>

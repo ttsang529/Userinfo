@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <script>
+        var ctx;
+        var drawables;
+
+
+        window.onload=function(){
+
+            ctx=document.getElementById("cvs").getContext("2d");
+            ctx.canvas.addEventListener("click",clickCvs);
+            drawables=[];
+            window.setInterval(refresh,10);
+        };
+
+        function clickCvs(e){
+            var x=e.clientX-ctx.canvas.offsetLeft;
+            var y=e.clientY-ctx.canvas.offsetTop;
+            drawables.push(new Circle(x,y));
+        }
+
+        function refresh(){
+            drawables.push(new Point());
+            
+            for (var i=0;i<drawables.length;i++){
+                if(drawables[i].update()){
+                    drawables.splice(i,1);
+                    i--;
+                }
+                
+            }
+            //clear view 
+            ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+            
+            for (var i=0;i<drawables.length;i++){
+                drawables[i].draw();
+            }
+        }
+
+        function Point(){
+            this.x=0;
+            this.y=0;
+            this.vx=Math.random()*3;
+            //this.vy=Math.random()*3;
+            this.vy=0;
+
+            this.update=function(){
+                //update logic
+                this.x+=this.vx;
+                this.y+=this.vy;
+                this.vy+=0.05;
+                //return true be object's over
+                return (this.x>ctx.canvas.width||this.y>ctx.canvas.heigth);
+            };
+
+            this.draw=function(){
+                ctx.fillStyle="#1C1C1C";
+                ctx.strokeStyle="red";
+                ctx.save();
+                //ctx.fillRect(this.x,this.y,10,10);
+                //ctx.strokeRect(this.x,this.y,10,10);
+                //circle
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,5,0,2*Math.PI);
+                ctx.stroke();
+
+                ctx.restore();
+            };
+        }
+
+        function Circle(x,y){
+            this.x=x;
+            this.y=y;
+            this.radius=0;
+            this.update=function(){
+                this.radius++;
+                return this.radius > 100;
+            };
+            this.draw=function(){
+                ctx.save();//save canvas setting
+                ctx.strokeStyle="#ffcc66";
+                ctx.beginPath();
+                ctx.arc(this.x,this.y,this.radius,0,2*Math.PI);
+                ctx.stroke();
+                ctx.restore();//restore canvas before setting
+            };
+        }
+    </script>
+    <body>
+        <canvas id="cvs" width="800" height="600"></canvas>
+    </body>
+</html>

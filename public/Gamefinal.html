@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Game</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <script>
+        var ga={
+            //ctx:{audio:new AudioContext()},
+            ctx:{audio:new(window.AudioContext || window.webkitAudioContext)},
+            res:{
+                loaded:0,total:4,
+                imgs:{explosion:"/images/explosion.png",plane:"/images/plane.png"},
+                sounds:{explosion:"/audio/sound-explosion.mp3",bullet:"/audio/sound-bullet.mp3"}
+            }
+        };
+
+        window.onload = function(){
+            ga.loadResources();
+           // ga.startGame(); //can't put here because asynchronous
+        };
+
+        ga.loadResources = function(){
+            ga.loadImages();
+            ga.loadSounds();
+        }
+
+        ga.loadImages = function(){
+            // find object for all member
+            for(var name in ga.res.imgs){
+                ga.loadImage(name,ga.res.imgs[name]);
+              
+                //alert(name+":"+ga.res.imgs[name]);
+            }
+        };
+
+
+        ga.loadImage = function(name,src){
+            var img=new Image();
+            img.src = src;
+            img.onload=function(){
+                ga.res.imgs[name]=this;
+                console.log(name);
+                ga.resourceLoaded();
+            }
+        };
+
+        ga.loadSounds=function(){
+            for(var name in ga.res.sounds){
+                ga.loadSound(name,ga.res.sounds[name]);
+            }
+        };
+
+        ga.loadSound=function(name,src){
+            var req=new XMLHttpRequest();
+            req.open("get",src);
+            req.responseType="arraybuffer";
+            req.onload=function(){
+                var response=this.response;// ArrayBuffer object
+                ga.ctx.audio.decodeAudioData(response,function(buffer){
+                    ga.res.sounds[name]=buffer;
+                    console.log(name);
+                    ga.resourceLoaded();
+                });
+            };
+           req.send();
+        };
+
+        ga.startGame=function(){
+            console.log("Start Game");
+        };
+        //resource loaded
+        ga.resourceLoaded=function(){
+            ga.res.loaded++;
+            console.log(ga.res.loaded/ga.res.total);
+            if (ga.res.loaded >= ga.res.total){
+                ga.startGame();
+            }
+        };
+    </script>
+    <body>
+
+    </body>
+</html>

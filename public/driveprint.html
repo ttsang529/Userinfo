@@ -2,7 +2,7 @@
 <head>
 <title>Canvas</title>
 <script type="text/javascript">
-var cvs, ctx, svg;
+var cvs, ctx, svg,doc_id=null,doc_name=null;
     window.onload=function(){
         // 初始化程式，取得重要的全域物件
         cvs=document.getElementById("cvs");
@@ -189,6 +189,8 @@ var cvs, ctx, svg;
             if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
                 var doc = data[google.picker.Response.DOCUMENTS][0];
                 //console.log(doc.id);
+                doc_id=doc.id;
+                doc_name=doc.name;
                 downloadFile(doc.id);
             }
      
@@ -252,12 +254,81 @@ var cvs, ctx, svg;
     req.send();
     */
 
-    function saveFileToDrive(){
-        uploadFile("test.jpg",function(){
-            alert("Upload Google Drive Success");
-        });
+
+
+    function updateFileToDrive(){
+        if ((doc_id == null)||(doc_name == null)){
+             alert("NOT file get for Google Drive");
+        }else{
+            console.log("id="+doc_id+"   and filename="+doc_name);
+            updateFile(doc_name,function(){
+                alert("Upload Google Drive Success");
+            });
+        }
+        
     }
 
+
+    
+	function updateFile(filename, callback){
+		// 準備 Multipart 格式的細節
+		var boundary="-------314159265358979323846";
+		var delimiter="\r\n--"+boundary+"\r\n";
+		var close_delim="\r\n--"+boundary+"--";
+
+		// 準備一些自訂的檔案資訊
+		var contentType="image/jpeg";
+		var metadata={
+			"name":filename,
+			"mimeType":contentType
+		};
+
+		// 準備要上傳的圖檔資料，編碼成 base64 字串
+		var base64Data=cvs.toDataURL("image/jpeg").replace("data:image/jpeg;base64,", "");
+		
+		// 組織出正確的 Multipart 格式
+		var multipartRequestBody=
+			delimiter +
+			"Content-Type: application/json\r\n\r\n" +
+			JSON.stringify(metadata) +
+			delimiter +
+			"Content-Type: " + contentType + "\r\n" +
+			"Content-Transfer-Encoding: base64\r\n" +
+			"\r\n" +
+			base64Data +
+			close_delim;
+
+
+
+        var req = new XMLHttpRequest();
+        req.open("PATCH","https://www.googleapis.com/upload/drive/v3/files/"+doc_id+"?uploadType=multipart");
+        req.setRequestHeader("Authorization","Bearer "+access_token);
+        req.setRequestHeader("Content-Type","multipart/mixed; boundary=\"" + boundary + "\"");
+        req.onload=callback;
+        req.send(multipartRequestBody);
+
+	}
+
+
+
+
+
+
+    function saveFileToDrive(){
+        
+        var  Filename = enterFilename()
+        if (Filename!=null){
+             uploadFile(Filename,function(){
+                 alert("Upload Google Drive Success");
+             });
+        }
+      
+    }
+
+    function enterFilename(){
+        var Filename = prompt("FileName cannot be null,Please enter FileName", "test.jpg");
+        return Filename;
+    }
 
     // 利用 Multipart 格式上傳檔案，檔案內容需使用 base64 編碼處理
 	function uploadFile(filename, callback){
@@ -327,9 +398,9 @@ var cvs, ctx, svg;
 <input type="color" id="fill-color" />
 <button onclick="inverse()">inverse</button>
 <button onclick="grayscale();">Grayscale</button>
-<button onclick="openfileFromDrive();">Open from Driver</button>
-<button onclick="saveFileToDrive();">Save to Driver</button>
-<button onclick="updateFileToDrive();">Update to Driver</button>
+<button onclick="openfileFromDrive();">Open from Google Driver</button>
+<button onclick="saveFileToDrive();">Save to Google Driver</button>
+<button onclick="updateFileToDrive();">Update to Google Driver</button>
 <hr/>
 <canvas style="border:1px solid black"
 	width="800" height="600" id="cvs"></canvas>
