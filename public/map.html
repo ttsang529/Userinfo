@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <button onclick="move();">move</button>
+    <button onclick="getID();">ID</button>
+    <div id="map"></div>
+    
+<script>
+
+var map;
+function move(){
+    //map.setCenter({lat:25.019690 , lng:121.5396190});
+    map.panTo({lat:25.019000 , lng:121.5396000});
+}
+function getID(){
+    var ID=map.getMapTypeId();
+    console.log(ID);
+}
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 25.019600, lng:121.5396100},
+    zoom: 30,
+    draggable:true,
+    //mapTypeId:"satellite"
+    mapTypeId:google.maps.MapTypeId.SATELLITE
+  });
+
+  //build up make
+  var marker=new google.maps.Marker({
+      position:{lat:25.019600,lng:121.5396100},
+      map:map,
+      clickable:true,
+      icon:{url:"car.png",scaledSize:new google.maps.Size(64,38)}
+  });
+  
+
+  google.maps.event.addListener(marker,"click",function(){
+     var info=new google.maps.InfoWindow({
+      content:"Hello Map",
+      position:{lat:25.019600,lng:121.5396100}
+  });
+  info.open(map,marker);
+  });
+
+}
+
+    </script>
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
+        async defer></script>-->
+        <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
+             async defer>
+    </script>
+  </body>
+</html>

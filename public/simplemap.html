@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+        <script>
+
+        var map;
+        var geocoder;
+        var directions;
+    
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 25.0169587, lng: 121.5338507},
+                zoom: 20
+            });
+            google.maps.event.addListener(map,"click",function(e){
+                console.log(e.latLng.lat());
+                console.log(e.latLng.lng());
+
+                var marker=new google.maps.Marker({
+                    position:e.latLng,
+                    map:map
+                });
+                var info=new google.maps.InfoWindow({
+                    content:"lat:"+e.latLng.lat()+"<br/>"+"lng:"+e.latLng.lng()
+                });
+                info.open(map,marker);
+            });
+
+            //detect the zoom change
+            google.maps.event.addListener(map,"zoom_changed",function(e){
+                    //alert("changed");
+            });
+             //buiid up geocoder object
+            geocoder=new google.maps.Geocoder();
+            //location transfer lat,lng
+            geocoder.geocode({address:"台北市羅斯福路四段一號"},function(results,status){
+                var location=results[0].geometry.location;
+                //build up marker
+                new google.maps.Marker({
+                    position:location,
+                    map:map
+                });
+          
+                //console.log(location);
+            });
+            //build up directionsService object
+            directions=new google.maps.DirectionsService();
+            //map route planing
+            directions.route({
+                origin:"台北市羅市福路四段一號",
+                destination:"台北市復興北路190巷13號",
+                travelMode:google.maps.TravelMode.TRANSIT
+            },function(result){
+                new google.maps.DirectionsRenderer({
+                    directions:result,
+                    map:map,
+                    panel:document.getElementById("result")
+                });
+                //console.log(result);
+            });
+        }
+       
+        
+    </script>
+  </head>
+  <body>
+  
+    <div id="map"></div>
+      <div id="result"></div>
+ 
+    <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
+        async defer></script>
+  </body>
+</html>
+    </body>
+</html>

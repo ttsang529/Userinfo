@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+        var map;
+        function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 25.019600, lng:121.5396100},
+            mapTypeId:google.maps.MapTypeId.SATELLITE,
+            zoom: 13
+        });
+        //Get info
+        getData();
+        }
+        var data;
+        function getData(){
+            // data=[{"lat":25.014962,"lng":121.532743,"name":"高進發彩券行","addr":"台北市中正區羅斯福路四段24巷14之1號"},{"lat":25.028267,"lng":121.50585,"name":"金超群彩券行","addr":"台北市中正區中華路二段311巷2號"},{"lat":25.044425,"lng":121.524064,"name":"全聯運彩商行","addr":"台北市中正區忠孝東路一段80號1樓"},{"lat":25.0252749,"lng":121.500631,"name":"懋昇商行","addr":"台北市萬華區萬大路281號"},{"lat":25.0301989,"lng":121.492722,"name":"智傑彩券行","addr":"台北市萬華區長順街1號"},{"lat":25.029194,"lng":121.504652,"name":"金財運動彩券行","addr":"台北市萬華區中華路2段362號1樓"}];
+            //ajax 
+            var req=new XMLHttpRequest();
+            req.open("get","http://training.pada-x.com/resources/javascript-advanced/taipei-lottery.txt");
+            //req.open("get","taipei-lottery.txt");
+            req.send();
+            req.onload=function(){
+                //alert(this.responseText);
+                data=JSON.parse(this.responseText);
+                showSites();
+            };
+        }
+
+        function showSites(){
+            for (var i=0;i<data.length;i++){
+                showSite(data[i])
+            }
+        }
+        function showSite(site){
+            var marker=new google.maps.Marker({
+                position:{lat:site.lat,lng:site.lng},
+                map:map
+            });
+            var info=new google.maps.InfoWindow({
+                content:site.name+"<br/>"+site.addr
+            });
+            google.maps.event.addListener(marker,"click",function(){
+               info.open(map,marker);
+            });
+
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?&callback=initMap"
+        async defer></script>
+  </body>
+</html>

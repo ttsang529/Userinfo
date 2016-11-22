@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+     
+        <title>testhtml</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <script>
+            /*
+            var test=function test(){
+                alert("Hello");
+            }
+            test();
+            */
+            //call in immediate
+            /*
+            function testtest(msg){
+                alert(msg);
+            }
+            testtest("test");
+            //call in immediate
+
+            (function(){
+                alert("Hello");
+            })();
+            */
+            /*
+            var point=new Object();
+            point.x = 3;
+            point.y = 5;
+            point.get=function(){
+                alert(this.x+" , "+this.y);
+            } 
+
+            point.get();
+            */
+
+            //建構植
+            /*
+            function Point(x,y){
+                this.x=x;
+                this.y=y;
+                this.get=function(){
+                    alert(this.x+","+this.y);
+                };
+            }
+            var point= new Point(3,4);
+            point.get();
+            */
+            //JSON (Javascript Object Notation)
+            /*
+            var point={
+                "x":3,
+                "y":7,
+                "get":function(){
+                    return this.x+this.y;
+                },
+                "k":7,
+                "test":function(test){
+                    alert(test);
+                }
+            };
+            point.test(point.get());
+            */
+            /*
+                add function
+                 n1:int 
+                 n2:int
+                 callback:function
+            
+            function add(n1,n2,callback){
+                callback(n1+n2);
+            }
+            var handler =function(result){
+                alert(result);
+            }
+
+            add(3,4,handler);
+            add(5,8 ,function(result){
+                document.title=result;
+            });
+            */
+            /*
+                    add function
+                     args:object
+                     - n1:int
+                     - n2:int
+                     - callback: function()
+            
+             function add(arg){
+                arg.callback(arg.n1+arg.n2);
+            }
+            
+            var obj=new Object();
+            obj.n1=3;
+            obj.n2=4;
+            obj.callback=function(result){
+                alert(result);
+            };
+            
+            add({n1:3,n2:4,callback:function(result){alert(result)}});
+            
+            var arr=[1,2];
+            arr.push(3);
+            arr.push("hello");
+            console.log(arr);
+            */
+            var google={};
+            google.lib={};
+            google.lib.Point=function(x,y){
+                this.x=x;
+                this.y=y;
+            };
+            google.lib.Line=function(p1,p2){
+                this.p1=p1;
+                this.p2=p2;
+            }
+            var p1=new google.lib.Point(3,4);
+            var p2=new google.lib.Point(4,5);
+            var line=new google.lib.Line(p1,p2);
+
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

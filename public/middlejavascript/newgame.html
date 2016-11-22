@@ -82,7 +82,7 @@ ga.initMain=function(){
     ga.dom.main.style.display="block";
 };
 
-ga.initGame=function(){
+ga.StartGame=function(){
     //game Start
     //switch game view
     ga.dom.main.style.display="none";
@@ -90,14 +90,16 @@ ga.initGame=function(){
     //init game data
     ga.data.plane=new ga.lib.Plane();
     ga.data.circle=0;
+    
     ga.data.drawables=[];
-    ga.data.drawables.push(ga.data.plane);
+    ga.data.bulletSystem=new ga.lib.BulletSystem();
+    ga.data.drawables.push(ga.data.plane,ga.data.bulletSystem);
     //build up keyboard control
     document.addEventListener("keydown",ga.evts.keydown);
     document.addEventListener("keyup",ga.evts.keyup);
     //begin game update schedule
     //window.setInterval(ga.refreshGame,20);
-    window.setInterval(ga.refreshGame,20);
+    ga.data.gameId=window.setInterval(ga.refreshGame,10);
 };
 
     ga.evts.keydown=function(e){
@@ -119,6 +121,7 @@ ga.initGame=function(){
     ga.evts.keyup=function(e){
        
         var code=e.keyCode;
+
         if (code==37){         //left
             ga.key.left=false;
         }else if (code==38){   //top
@@ -148,6 +151,8 @@ ga.refreshGame=function(){
         ga.data.drawables[i].draw();
     }
     //update new round 
+    ga.checkGameover();
+    //ga.bulletSysDisapper();
     ga.data.circle++;
 };
 
@@ -170,7 +175,7 @@ ga.lib.Plane=function(){
         this.x=ga.ctx.canvas.width/2;
         this.y=ga.ctx.canvas.height/2;
         this.size=20;
-        this.speed=2;
+        this.speed=1;
         this.update=function(){
                     if (ga.key.left){
                         //this.x--;
@@ -197,8 +202,8 @@ ga.lib.Plane=function(){
 
     this.fire=function(){
         if (ga.data.circle%10==0){
-             ga.data.drawables.push(new ga.lib.Bullet(this.x,this.y-10));
-             ga.playSound(ga.res.sounds.bullet);
+            ga.data.drawables.push(new ga.lib.Bullet(this.x,this.y-10));
+            ga.playSound(ga.res.sounds.bullet);
         }
        
     };
@@ -223,25 +228,156 @@ ga.lib.Bullet=function(x,y){
     };
     this.draw=function(){
         ga.ctx.save();
-        ga.ctx.fillStyle="white";
+        ga.ctx.fillStyle="red";
         ga.ctx.beginPath();
         ga.ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
         ga.ctx.fill();
         ga.ctx.restore();
     };
 }
+
+ga.lib.BulletSystem=function(){
+    this.bullets=[];
+    this.dense=10;
+    this.update=function(){
+        //add the bullet
+        if (ga.data.circle%this.dense==0){
+              this.bullets.push(new ga.lib.BulletFly());
+        }
+        //update bullet data
+        for (var i=0;i < this.bullets.length;i++){
+            if (this.bullets[i].update()){
+                this.bullets.splice(i,1);
+                i++;
+            };
+        }
+        return false;
+    };
+    this.draw=function(){
+        //draw every bullets
+        for (var i=0;i<this.bullets.length;i++){
+            this.bullets[i].draw();
+        }
+    }
+
+}
+
+ga.lib.BulletFly=function(){
+    var seed=Math.random()*4;
+    if (seed >3){//left to right
+    
+        this.x=0;
+        this.y=Math.random()*ga.ctx.canvas.height;
+        this.vx=Math.random()*1;//1~0.5
+        this.vy=Math.random()*1-0.5;//1~0.5
+        
+    }else if (seed>2){//right to left
+    
+        this.x=ga.ctx.canvas.width;
+        this.y=Math.random()*ga.ctx.canvas.height;
+        this.vx=-1*(Math.random()*1);//1~0.5
+        this.vy=Math.random()*1-0.5;//1~0.5
+        
+    }else if (seed>1){//up to buttom
+        this.x=Math.random()*ga.ctx.canvas.width;
+        this.y=0;
+        this.vx=Math.random()*1-0.5;//1~0.5
+        this.vy=Math.random()*1;//1~0.5
+    }else{            //buttom to up
+        this.x=Math.random()*ga.ctx.canvas.width;
+        this.y=ga.ctx.canvas.height;
+        this.vx=Math.random()*1-0.5;//1~0.5
+        this.vy=-1*Math.random()*1;//1~0.5
+    }
+  
+    this.size=2;
+    this.update=function(){
+        this.x+=this.vx;
+        this.y+=this.vy;
+
+        return (this.x>ga.ctx.canvas.width||
+                this.x<0||
+                this.y>ga.ctx.canvas.height||
+                this.y<0);
+    };
+    this.draw=function(){
+        ga.ctx.save();
+        ga.ctx.fillStyle="white";
+        ga.ctx.beginPath();
+        ga.ctx.arc(this.x,this.y,this.size,0,2*Math.PI);
+        ga.ctx.fill();
+        ga.ctx.restore();
+        ga.ctx.beginPath();
+    };
+};
+
+ga.bulletSysDisapper=function(){
+    var bullet=ga.data.bullet;
+    var bulletSys=ga.data.bulletSystem.bullets; 
+    var distance;
+    for (var i=0;i<bullet.length;i++){
+        for (var k=0;k<bulletSys.length;k++){
+            distance = Math.sqrt(
+                    Math.pow(bullet[i].x-BulletSys[k].x,2)+
+                    Math.pow(bullet[i].y-BulletSys[k].y,2)
+            );
+            if (distance < (bulletSys[k].size+bullet[i].size)){
+                ga.lib.BulletSystem.update=false;
+            }    
+        }
+    };
+
+}
+
+ga.checkGameover=function(){
+    var over=false;
+    var plane=ga.data.plane;
+    var bulletSys=ga.data.bulletSystem.bullets;
+    var distance;
+    for (var i=0;i<bulletSys.length;i++){
+        distance = Math.sqrt(
+                Math.pow(plane.x-bulletSys[i].x,2)+
+                Math.pow(plane.y-bulletSys[i].y,2)
+        );
+        //console.log(distance);
+        if (distance < (bulletSys[i].size+plane.size/2)){   //BGMM
+            over=true;
+            break;
+        };    
+    }
+    //game over
+    if (over){
+        //draw exposion
+        ga.ctx.drawImage(ga.res.imgs.explosion,
+            plane.x-20,plane.y-20,40,40
+        );
+        ga.playSound(ga.res.sounds.explosion);
+        ga.ctx.save();
+		ga.ctx.globalAlpha=0.5;
+		ga.ctx.fillRect(0, 0,
+		ga.ctx.canvas.width, ga.ctx.canvas.height);
+		ga.ctx.globalAlpha=1;
+		ga.ctx.fillStyle="white";
+		ga.ctx.fillText((ga.data.circle*0.005)+"s", 200, 200);
+		ga.ctx.restore();
+        //game over
+        window.clearInterval(ga.data.gameId);
+        ga.ctx.canvas.addEventListener("click", ga.initMain);
+         
+    }
+};
 </script>
 </head>
 <body>
     <div id="loading"></div>
     <div id="main" style="display:none">
-        <button onclick="ga.initGame()">Start</button>
+        <button onclick="ga.StartGame()">Start</button>
     </div>
     <div id="game" style="display:none">
         <!--
             canvas id="cvs" width="640" height="480"></canvas>
         -->    
-        <canvas id="cvs" width="1080" height="400"></canvas>
+        <canvas id="cvs" width="1080" height="440"></canvas>
     </div>
 </body>
 </html>
