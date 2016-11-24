@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS3 other</title>
+        <style>
+        body{
+            /*background-image:url('http://www.publicdomainpictures.net/pictures/100000/velka/un-libro-de-amor-tal-vez.jpg')
+            background-image:url('http://s4.gigacircle.com/media/s4_554c2d9c195a1.jpg')*/
+            background-image:url('http://img.ltn.com.tw/2014/new/nov/15/images/bigPic/400_400/phpc0P7CU.jpg');
+            background-repeat: no-repeat;
+
+        }
+        .top{
+            width:100px;height:30px;background-color: #dddddd;
+            transform:translate(15px,0px) skew(-45deg,0deg);
+        }
+        .center{
+            width:100px;height:100px;background-color: #aaaaaa;
+            display:inline-block;vertical-align:top;
+        }
+        .right{
+            width:30px;height:100px;background-color: #777777;
+            display:inline-block;
+            transform:translate(0px,-15px) skew(0deg,-45deg);
+        }
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        <script>
+            $(function() {
+                $( "#draggable" ).draggable();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="draggable" class="square">
+            <div class="top"></div>
+            <div class="center">Tommy</div><div class="right"></div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Canvas</title>
+        <style>
+        /*
+        body{
+            background-image:url('http://img.ltn.com.tw/2014/new/nov/15/images/bigPic/400_400/phpc0P7CU.jpg');
+            background-repeat: no-repeat;
+        }
+        */
+        </style>
+        <script>
+            var cvs;
+            window.onload=function(){
+                cvs=document.getElementById("cvs");
+                // one canvas mapping context object
+                ctx=cvs.getContext("2d");
+
+                var img=new Image();
+                img.src="beautiful.jpg";
+                //ctx.drawImage(img,0,0,cvs.width,cvs.height);     //if img size small , not need to load
+               
+                img.onload=function(){
+                    //ctx.drawImage(this,0,0);
+                    ctx.globalAlpha=0.2;
+                    ctx.drawImage(this,0,0,cvs.width,cvs.height);
+                }
+              
+                ctx.fillStyle='pink';
+                ctx.fillRect(10,10,100,200);
+                ctx.fillStyle='blue';
+                ctx.font="25px arial";
+                ctx.fillText("Hello",200,100);
+                ctx.strokeStyle="green";
+                ctx.strokeRect(200,150,50,50);
+                //左到右漸層工具
+                /*
+                var gra=ctx.createLinearGradient(100,400,600,100);
+                gra.addColorStop(0,"red");
+                gra.addColorStop(1,"black");
+                ctx.fillStyle=gra;
+                ctx.fillRect(0,0,cvs.width,cvs.height);
+                */
+                //path tools
+                
+                ctx.beginPath();
+                ctx.moveTo(50,50);
+                ctx.lineTo(200,100);
+                ctx.lineTo(100,200);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(500,500,100,0,2*Math.PI);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(50,500);
+                ctx.quadraticCurveTo(200,300,400,500);
+                ctx.stroke();
+
+            }
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <canvas id="cvs" width="800" height="600" style="border:1px solid black;"></canvas>
+    </body>
+</html>
