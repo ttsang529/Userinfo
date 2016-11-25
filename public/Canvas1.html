@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Canvas1</title>
+        <script>
+            var ctx;
+            window.onload=function(){
+                ctx=document.getElementById("cvs").getContext("2d");
+
+                //ctx.canvas.addEventListener("click",clickCvs);
+                //ctx.canvas.addEventListener("mousemove",clickCvs);  //move to 
+                ctx.canvas.addEventListener("mousedown",function(){
+                    //register mousemove clickCvs
+                    ctx.canvas.addEventListener("mousemove",clickCvs);
+                });
+                ctx.canvas.addEventListener("mouseup",function(){
+                    //unregister mousemove clickCvs
+                    ctx.canvas.removeEventListener("mousemove",clickCvs);
+                });
+                
+
+                //drawStar(100,100);
+                //drawStar(200,200);    
+            }
+
+            function clickCvs(e){
+                var x=e.clientX-ctx.canvas.offsetLeft;
+                var y=e.clientY-ctx.canvas.offsetTop;
+                var size = Math.random()*40+10//10~50
+                drawStar(x,y,size);
+            }
+
+            function drawStar(x,y,size){
+                //save canvas setting 
+                ctx.save();
+                //move coordinate to center of rectangle
+                ctx.translate(x,y); 
+                //origin coordinate be fillRect(200,200,100,100)
+                ctx.fillRect(-size/2,-size/2,size,size);
+                //rotate 45 degree
+                ctx.rotate(Math.PI/4);
+                ctx.fillRect(-size/2,-size/2,size,size);
+                //restore original coordinate
+                ctx.restore();
+            }
+
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h3>Canvas Draw</h3>
+        <canvas id="cvs" width="800" height="600" style="border:1px solid black"></canvas>
+    </body>
+</html>
+
+

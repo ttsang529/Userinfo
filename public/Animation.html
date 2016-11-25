@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Animation</title>
+        <style>
+            .box{
+                width:100px;height:100px;background-color: red;opacity:0.3;
+                position:absolute;left:100px;top:100px;
+                transition:opacity 1s, left 1s,top 1s;
+                /*transition:height 2s;*/
+            }
+
+            /*
+            .rotate{
+                 *//*animation:test 2s infinite;*//*
+                animation:test 2s;
+
+            }
+           
+            */
+            /*
+            @keyframes test{
+                0%{opacity:0.5;border-radius:0px;transform:rotate(0deg);}
+                25%{opacity:0.5;border-radius:20px;transform:rotate(45deg);background-color: green;}
+                50%{opacity:0.5;border-radius:40px;transform:rotate(90deg);background-color: yellow;}
+                75%{opacity:.0.5;border-radius:20px;transform:rotate(135deg);background-color: blue;}
+                100%{opacity:0.5;border-radius:0px;transform:rotate(180deg);background-color: red;}
+            }
+            */
+        </style>
+        <script>
+            var box;
+            window.onload=function(){
+                box=document.getElementById("box");
+                box.addEventListener("mouseover",function(){
+                    this.style.opacity=1;
+                });
+                box.addEventListener("mouseout",function(){
+                    this.style.opacity=0.3;
+                });
+
+                document.addEventListener("click",function(e){
+                    box.style.left=e.clientX+"px";
+                    box.style.top=e.clientY+"px";
+                });
+                //box.style.height="500px";
+                /*
+                window.addEventListener("scroll",function(){
+                    if ((document.body.scrollTop+(window.innerHeight/2))> box.offsetTop){
+                            //console.log("gogogogo");
+                            box.classList.add("rotate");
+                    }else{
+                         box.classList.remove("rotate");
+                    }
+                   console.log((document.body.scrollTop+window.innerHeight/2)+","+box.offsetTop ); 
+                    //console.log(document.body.scrollTop+","+window.innerHeight+","+box.offsetTop);
+                });
+                */
+                /*
+                
+                box.addEventListener("click",function(){
+                    //add rotate css on box
+                    this.classList.add("rotate");
+                });
+                */
+                
+            };
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <!--<div style="height:2000px;"></div>-->
+        <div id="box" class="box"></div>
+        <!--<div style="height:2000px;"></div>-->
+    </body>
+</html>
