@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS Transition</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .box{
+                width:50px;height: 50px;background-color: red;
+                position: absolute;top:100px;left:100px;
+                transition:left 3s, top 3s,opacity 3s;
+                opacity: 0.3
+            }
+            .box:hover{opacity:1};
+        </style>
+        <script>
+            var box;
+            var steps;
+            var moving;
+
+            window.onload=function(){
+                box=document.getElementById("box");
+                steps=[];
+                filter=0;
+                moving=false;
+                //track end of moving timing
+                box.addEventListener("transitionend",endMove);
+                //user setting move position
+                document.addEventListener("click",clickDoc);
+            };
+
+            function clickDoc(e){
+                //keep move on box center
+                var clientX=e.clientX-25;
+                var clientY=e.clientY-25;
+                if(moving){  //box  moving
+                    //console.log("add x:"+clientX+"  y:" +clientY );
+                    steps.push({x:clientX,y:clientY});
+                }else{//not moving
+                    box.style.left=clientX+"px";
+                    box.style.top=clientY+"px";
+                    moving=true;
+                }
+               
+            }
+            
+            function endMove(e){
+                
+                //alert("End");
+                //console.log(e.propertyName);
+                if(e.propertyName=="top"){
+                     if(steps.length>0){   //not end 
+                        var step=steps.shift();
+                        box.style.left = step.x+"px";
+                        box.style.top  = step.y+"px";
+                        //console.log("end x:"+step.x+"  y:" +step.y );
+                    }else{  //finish
+                        moving=false;
+                    }
+                }
+               
+            }
+            /*
+            //move for go click location
+            function move(e){
+                box.style.left=(e.clientX-25)+"px";
+                box.style.top=(e.clientY-25)+"px";
+            }
+            */
+
+        </script>
+    </head>
+    <body>
+        <div class="box" id="box"></div>
+    </body>
+</html>
